@@ -1,0 +1,10 @@
+#title{
+    color : whitesmoke;
+    font-family: Impact, fantasy;
+}
+
+#title:hover{
+    color: gray;
+    background-color: whitesmoke;
+    border-radius: 30px;
+}
