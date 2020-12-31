@@ -81,3 +81,20 @@ label {
 	transform: scale(0.9);
 	z-index: -1;
   }
+
+#pic
+{
+	
+}
+
+#filters
+{
+	position: absolute;
+	top: 10%;
+	left: 10%;
+}
+
+.information {
+	width: 70%;
+}
+
