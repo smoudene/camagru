@@ -25,7 +25,7 @@ body {
 }
 
 #cam {
-	height: 80vh;
+
 }
 
 .profile {
@@ -34,8 +34,8 @@ body {
 
 
 .buttons {
-	width: 46%;
-	height: 40%;
+	width: 60%;
+	height: auto;
 }
 .filters {
 	width: 54%;
@@ -89,6 +89,10 @@ label {
 	left: 10%;
 }
 
+.filter {
+	width: 40%;
+}
+
 .information {
 	width: 70%;
 }
@@ -106,3 +110,52 @@ i {
 	display: none;
 }
 
+.column {
+	float: left;
+	width: 23%;
+	height: auto;
+}
+
+.filter_img {
+	width: 70%;
+	height: 10%;
+}
+
+.edit-btn {
+	width: 40%;
+}
+
+.del-btn {
+	width: 40%;
+}
+.gallery {
+	width: 33.33%;
+	min-width: 200px;
+	min-height: auto;
+}
+.infos {
+	width: 25%;
+}
+.profile-pic {
+	min-height: auto;
+
+}
+.update-btn {
+	width: 60%;
+}
+.cancel-btn {
+	width: 40%;
+}
+
+.post-user {
+  	width: 7%;
+  	height: auto
+}
+
+.out-btn {
+	width: 30%;
+}
+
+.cam-btn {
+	width: auto;
+}
