@@ -1,8 +1,10 @@
 if (window.location.href == "http://localhost/camagru/posts/add")
 {
+
     var video = document.getElementById('video'),
         canvas = document.getElementById('pic'),
-        context = canvas.getContext('2d');
+        context = canvas.getContext('2d'),
+        imagefile = document.getElementById('upFile');
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
     {
         navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream)
@@ -60,43 +62,65 @@ if (window.location.href == "http://localhost/camagru/posts/add")
         if (hat.checked == true)
             elem.src = "../public/img/hat.png";
 
-        document.getElementById('vi').appendChild(elem);
-        document.getElementById('take').disabled = false;
+        document.getElementById('vi').appendChild(elem); 
     }
 
-    elem.addEventListener("mousedown", initialClick, false);
-    var moving = false;
-    function initialClick(e) {
-
-        if(moving){
-        document.removeEventListener("mousemove", move);
-        moving = !moving;
-        return;
+    window.addEventListener('DOMContentLoaded', initImageLoder);
+    function initImageLoder(){
+        imagefile.addEventListener('change', handleManualUploadedFiles);
+ 
+        function handleManualUploadedFiles(ev){
+            var file = ev.target.files[0];
+            handleFile(file);
         }
-        
-        moving = !moving;
-        image = this;
-    
-        document.addEventListener("mousemove", move, false);
-    
     }
-    function move(e){
-
-        var newX = e.clientX - 300;
-        var newY = e.clientY - 200;
-
-        if (newY < 10) newY = 10;
-        if (newX < 58) newX = 58;
-        if (newY > 450) newY = 450;
-        if (newX > 500) newX = 500;
-        console.log(newY);
-        elem.style.position = 'absolute';
-        elem.style.top = newY  + 'px';
-        elem.style.left = newX + 'px';
+    function handleFile(file){
+        var reader = new FileReader();
+        reader.onloadend = function(e){
+            var tempImageStore =  new Image();
+ 
+            tempImageStore.onload = function(ev){
+                h = ev.target.height;
+                w = ev.target.width;
+                context.clearRect(0, 0, w , h);
+                context.drawImage(ev.target, 0, 0, 400, 300);
+                document.getElementById('save').disabled = false;
+                document.getElementById('clear').disabled = false;
+            }
+            tempImageStore.src = ev.target.result;
+        }
+        reader.readAsDataURL(file);
     }
-
+    document.getElementById('save').addEventListener('click', function(){
+        if (imgfilter.src != "")
+            {
+               saveImage();
+               reloadDIV();
+               h = canvas.height;
+               w = canvas.width; 
+               context.clearRect(0, 0, w , h);
+               context.strokeRect(0, 0, w, h);
+            }
+            else {
+                alert("Choose a sticker");
+                document.getElementById('capture').disabled = true;
+            }
+    });
+    
+    
+    function saveImage(){
+        var canvasData = canvas.toDataURL("image/png");
+        var params = "imgBase64="+canvasData+"&filtstick="+stick;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open('POST', 'http://localhost/Camagru/Posts/takeImage');
+        xhttp.withCredentials = true;
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.onreadystatechange = function(){if (this.readyState == 4 && this.status == 200){}}
+        xhttp.send(params);
+    }
+    function reloadDIV () {document.getElementById("ba3").innerHTML.reload}
+    
 }
-
 function editShow() {
     document.getElementById('edit_div').style.display = "block";
     document.getElementById('edit_profile').style.display = "none";

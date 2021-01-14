@@ -10,8 +10,8 @@ body {
 }
 
 #logo {
-	font-family: Billabong;
-	font-size: 50px;
+	font-family: 'Tangerine', serif;
+	font-size: 60px;
 	text-decoration:none;
 }
 
@@ -25,7 +25,7 @@ body {
 }
 
 #cam {
-
+	height: 80vh;
 }
 
 .profile {
@@ -122,14 +122,14 @@ i {
 }
 
 .edit-btn {
-	width: 40%;
+	width: 50%;
 }
 
 .del-btn {
 	width: 40%;
 }
 .gallery {
-	width: 33.33%;
+	width: 25%;
 	min-width: 200px;
 	min-height: auto;
 }
@@ -141,21 +141,106 @@ i {
 
 }
 .update-btn {
-	width: 60%;
+	width: 70%;
 }
 .cancel-btn {
-	width: 40%;
+	width: 30%;
 }
 
 .post-user {
   	width: 7%;
   	height: auto
 }
-
-.out-btn {
-	width: 30%;
+.pr{
+	position: absolute;
+	right: 10.5vw;
+	top: 3vh;
+}
+.profi .mono {
+	position: absolute;
+	top: 8.5vh;
+	right: 1.5vw;
+	padding: 10px 20px;
+	background: #fff;
+	width: 215px;
+	box-sizing: 0 0.5vw 2.5vw rgba(0,0,0,0.1);
+	border-radius: 15px;
+	transition: 1.5s;
+	z-index: 100;
+	visibility: hidden;
+	opacity: 0;
+}
+.profi .mono.active {
+	visibility: visible;
+	opacity: 1;
+}
+.profi .mono::before{
+	content: '';
+	position: absolute;
+	top: -2px;
+	right: 9.5vw;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	transform: rotate(45deg);
+	
+}
+.profi .mono h3 {
+	width: 100%;
+	text-align: center;
+	font-size: 18px;
+	padding: 20px 0;
+	font-weight: 500;
+	color: #555;
+	line-height: 1.2em;
+}
+.profi .mono h3 span{
+	font-size: 14px;
+	color: #cecece;
+	font-weight: 400;
+}
+.profi .mono ul li{
+	list-style: none;
+	padding: 10px 0;
+	border-top: 1px solid rgba(0,0,0,0.05);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.profi .mono ul li img{
+	max-width: 20px;
+	margin-right: 10px;
+	opacity: 0.5;
+	transition: 0.5s;
+}
+.profi .mono ul li:hover img{
+	opacity: 1;
+}
+.profi .mono ul li a{
+	display: inline-block;
+	text-decoration: none;
+	color: #555;
+	font-weight: 500;
+	transition: 0.5s;
+}
+.profi .mono ul li a:hover a{
+color: #ff5d94;
 }
 
-.cam-btn {
-	width: auto;
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
 }
+
+ul.pagination li {display: inline;}
+
+ul.pagination li a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+ul.pagination li a:hover:not(.active) {background-color: #145979;color: white;}
+

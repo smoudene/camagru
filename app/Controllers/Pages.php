@@ -8,8 +8,10 @@
         public function index()
         {
             $post = $this->postModel->getPosts();
+            $countpg = $this->postModel->countPosts();
             $data = [
-                'posts' =>$post
+                'posts' =>$post,
+                'countpg' =>$countpg
             ];
             $this->view('pages/index', $data);
         }
