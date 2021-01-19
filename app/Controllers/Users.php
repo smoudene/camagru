@@ -12,7 +12,6 @@
         public function signup() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
             {
-
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
                 $token = openssl_random_pseudo_bytes(16);
                 $token = bin2hex($token);
@@ -72,7 +71,7 @@
                             <br /><br />
                             <br/>
                             To verify your account click here 
-                            <a href="http://localhost/Camagru/users/verification/?token='.$token.'">click here.</a>
+                            <a href="'.URL_ROOT.'/users/verification/?token='.$token.'">click here.</a>
                             </p>
                             <p>
                                 <br />--------------------------------------------------------
@@ -168,13 +167,60 @@
 
         public function logout()
         {
-            unset($_SESSION['userid']);
+            unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
             unset($_SESSION['user_username']);
             unset($_SESSION['user_fullname']);
 
             session_destroy();
             redirect('users/login');
+        }
+
+        public function forgot()
+        {
+            $this->view('users/forgot');
+        }
+
+        public function reset()
+        {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST')
+            {
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data = [
+                    'forgotEmail' => trim($_POST['forgotEmail']),
+                    'err_forgotEmail' => ''
+                ];
+
+                if (empty($data['forgotEmail']))
+                    $data['err_forgotEmail'] = 'please enter email !!';
+                else if(!$this->userModel->findUsrByEmail($data['forgotEmail']))
+                    $data['err_forgotEmail'] = 'Email doest not exist !!';
+                
+                if (empty($data['err_forgotEmail']))
+                {
+                        $to_email = $data['forgotEmail'];
+                        $subject = "Reset password";
+                        $user = $this->userModel->getUserToken($data['forgotEmail']);
+                        $body = '<p><h1>Reset Password</h1>,
+                            <br /><br />
+                            <br/>
+                            To reset your password click here 
+                            <a href="'.URL_ROOT.'/users/newpassword/?token='.$user->token.'&id='.$user->id.'">click here.</a>
+                            </p>
+                            <p>
+                                <br />--------------------------------------------------------
+                                <br />This is an automatic mail , please do not reply.
+                            </p>';
+                        $headers = "Content-type:text/html;charset=UTF-8" . "\r\n";
+                        $headers .= 'From: <oes-safi@Camagru.ma>' . "\r\n";    
+                        if (mail($to_email, $subject, $body, $headers))
+                            pop_up('signup_ok', 'Reset password verification sent to your email');
+                        else
+                            pop_up('signup_ok', 'Can not send email verificaton, please retry', 'alert alert-danger');
+                }
+                $this->view('users/forgot', $data); 
+            }
         }
 
         public function createUserSession($user)
@@ -202,6 +248,52 @@
             }
             else
                 die('error');
+        }
+
+        public function newpassword()
+        {
+            if (isset($_GET['token']) && isset($_GET['id']))
+            {
+                $data =[
+                    'token' => $_GET['token'],
+                    'id' => $_GET['id']
+                ];
+                
+                if ($this->userModel->verify($data['token']))
+                {
+                    $this->view('users/reset', $data);
+                }
+            }
+            else
+                die('error');
+        }
+        
+        public function updatepass($id)
+        {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST')
+            {
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data = [
+                    'newPassword' => trim($_POST['newPassword']),
+                    'id' => $id,
+                    'err_newPassword' => ''
+                ];
+
+                if (empty($data['newPassword']))
+                    $data['err_newPassword'] = 'please enter password !!';
+                
+                if (empty($data['err_newPassword']))
+                {
+                    $data['newPassword'] = password_hash($data['newPassword'], PASSWORD_DEFAULT);
+                    if($this->userModel->update_pass($data['newPassword'], $data['id']))
+                    {
+                        pop_up('signup_ok', 'Password updated');
+                        redirect('users/login');
+                    }
+                }
+                $this->view('users/reset', $data); 
+            }
         }
         
         public function profile() {
@@ -268,4 +360,26 @@
                 redirect('users/profile');
 
         }
+
+        public function get_commenter($user_id)
+        {
+            $this->db->query('SELECT * FROM users WHERE id = :id');
+            $this->db->bind(':id',$user_id);
+            $result = $this->db->single();
+            if($result)
+            return ($result);
+            else
+            return false;
+            } 
+
+            public function get_dest($user_id)
+            {
+            $this->db->query('SELECT * FROM users WHERE id = :id');
+            $this->db->bind(':id',$user_id);
+            $result = $this->db->single();
+            if($result)
+            return ($result);
+            else
+            return false;
+  	    } 
     }

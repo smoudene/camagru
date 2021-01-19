@@ -1,45 +1,194 @@
+/* 01 General */
+/* 02 Navbar */
+/* 03 Index page */
+/* 04 Post Add page */
+/* 05 Users profile page */
+
+/* ********** */
+/* 01 General */
+/* ********** */
+
 body {
-	background-color: whitesmoke;
+	background-color: #F5FFFA;
 }
 
-.username {
-	text-decoration: none;
-	font-size: 20px;
-	font-family: Verdana;
-	color: dimgrey;
+i {
+	width: 30px;
+	height: auto;
 }
+
+/* ********* */
+/* 02 Navbar */
+/* ********* */
 
 #logo {
-	font-family: 'Tangerine', serif;
-	font-size: 60px;
+	font-family: Billabong;
+	font-size: 50px;
 	text-decoration:none;
 }
 
-.rounded-circle {
-	width: 5%;
-	height: 5%;
+.out-btn {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.list-out-btn {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.cam-btn {
+	width: 2rem;
+	height: 2rem;
+}
+
+.list-cam-btn {
+	width: 2rem;
+	height: 2rem;
+}
+
+.profile-btn {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.list-profile-btn {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.list-btn {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+}
+
+.list-toggle {
+	display: none;
+}
+
+.liste {
+	display: none;
+	position: absolute;
+	right: 10%;
+	top: 15%;
+	background-color: whitesmoke;
+	border: 1px solid black;
+	width: 10rem;
+}
+.liste ul {
+	list-style: none;
+}
+
+.liste ul li a {
+	text-decoration: none;
+}
+
+@media screen and (max-width:1200px)
+{
+	.cam-btn {
+		display: none;
+	}
+	.out-btn {
+		display: none;
+	}
+	.profile-btn {
+		display: none;
+	}
+	.list-toggle {
+		display: block;
+	}
+	.list-toggle:hover .liste {
+		display: block;
+	}
+	.post-container {
+		width: 70%;
+		height: auto;
+	}
+	.post-img {
+		width: 100%;
+		height: 50%;
+	}
+}
+
+/* ************* */
+/* 03 Index page */
+/* ************* */
+
+.post-container {
+	width: 40%;
+	height: auto;
+}
+
+.post-img {
+	width: 100%;
+	height: 30rem;
+	object-fit: cover;
 }
 
 .create_date {
 	color: lightgrey;
 }
 
-#cam {
-	height: 80vh;
+.post-user {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;  
+	border: none;
+	object-fit: cover;
 }
 
-.profile {
-	width: 40px;
+.card-footer {
+	background-color: white;
+	height: 5rem;
 }
 
+.comment {
+	background-color: white;
+}
+
+.comment ul{
+	list-style: none;
+}
+/* **************** */
+/* 04 Post Add page */
+/* **************** */
+
+.camera {
+	margin-right: 2rem;
+	width: 50%;
+}
+
+.image {
+	width: 50%;
+}
 
 .buttons {
 	width: 60%;
 	height: auto;
 }
-.filters {
-	width: 54%;
-	height: 100px;
+
+.column {
+	float: left;
+	width: 23%;
+	height: auto;
+}
+
+#thum {
+	height: 20rem;
+}
+
+.filter {
+	width: 40%;
+}
+
+.filter_img {
+	width: 70%;
+	height: 10%;
 }
 
 label {
@@ -82,165 +231,55 @@ label {
 	z-index: -1;
   }
 
-#filters
-{
-	position: absolute;
-	top: 10%;
-	left: 10%;
-}
 
-.filter {
-	width: 40%;
-}
+/* ********************* */
+/* 05 Users profile page */
+/* ********************* */
 
 .information {
 	width: 70%;
 }
 
-.card-img-top {
-	border: 1px solid grey;
+.infos {
+	width: 25%;
 }
 
-i {
-	width: 30px;
-	height: auto;
+.profile-pic {
+	border-radius: 50%;
+	width: 13vw;
+	height: 13vw;
+	object-fit: cover;
+
+}
+.update-btn {
+	width: 60%;
+}
+.cancel-btn {
+	width: 40%;
 }
 
 #edit_div {
 	display: none;
 }
 
-.column {
-	float: left;
-	width: 23%;
-	height: auto;
+.gallery-container {
+	width: 70%;
 }
 
-.filter_img {
-	width: 70%;
-	height: 10%;
+.gallery {
+	width: 33.33%;
+	min-width: 200px;
+	min-height: auto;
 }
 
 .edit-btn {
-	width: 50%;
+	width: 40%;
 }
 
 .del-btn {
 	width: 40%;
 }
-.gallery {
-	width: 25%;
-	min-width: 200px;
-	min-height: auto;
-}
-.infos {
-	width: 25%;
-}
-.profile-pic {
-	min-height: auto;
 
+.card-img-top {
+	border: 1px solid grey;
 }
-.update-btn {
-	width: 70%;
-}
-.cancel-btn {
-	width: 30%;
-}
-
-.post-user {
-  	width: 7%;
-  	height: auto
-}
-.pr{
-	position: absolute;
-	right: 10.5vw;
-	top: 3vh;
-}
-.profi .mono {
-	position: absolute;
-	top: 8.5vh;
-	right: 1.5vw;
-	padding: 10px 20px;
-	background: #fff;
-	width: 215px;
-	box-sizing: 0 0.5vw 2.5vw rgba(0,0,0,0.1);
-	border-radius: 15px;
-	transition: 1.5s;
-	z-index: 100;
-	visibility: hidden;
-	opacity: 0;
-}
-.profi .mono.active {
-	visibility: visible;
-	opacity: 1;
-}
-.profi .mono::before{
-	content: '';
-	position: absolute;
-	top: -2px;
-	right: 9.5vw;
-	width: 20px;
-	height: 20px;
-	background: #fff;
-	transform: rotate(45deg);
-	
-}
-.profi .mono h3 {
-	width: 100%;
-	text-align: center;
-	font-size: 18px;
-	padding: 20px 0;
-	font-weight: 500;
-	color: #555;
-	line-height: 1.2em;
-}
-.profi .mono h3 span{
-	font-size: 14px;
-	color: #cecece;
-	font-weight: 400;
-}
-.profi .mono ul li{
-	list-style: none;
-	padding: 10px 0;
-	border-top: 1px solid rgba(0,0,0,0.05);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.profi .mono ul li img{
-	max-width: 20px;
-	margin-right: 10px;
-	opacity: 0.5;
-	transition: 0.5s;
-}
-.profi .mono ul li:hover img{
-	opacity: 1;
-}
-.profi .mono ul li a{
-	display: inline-block;
-	text-decoration: none;
-	color: #555;
-	font-weight: 500;
-	transition: 0.5s;
-}
-.profi .mono ul li a:hover a{
-color: #ff5d94;
-}
-
-ul.pagination {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
-
-ul.pagination li {display: inline;}
-
-ul.pagination li a {
-    color: black;
-    padding: 8px 16px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-ul.pagination li a:hover:not(.active) {background-color: #145979;color: white;}
-

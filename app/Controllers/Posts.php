@@ -13,10 +13,12 @@
         public function index()
         {
             $post = $this->postModel->getPosts();
-            $countpg = $this->postModel->countPosts();
+            $likes = $this->postModel->getlikes();
+            $comments = $this->postModel->getcomments();
             $data = [
                 'posts' =>$post,
-                'countpg' =>$countpg
+                'likes' => $likes,
+                'comments'=> $comments
             ];
             $this->view('posts/index', $data);
         }
@@ -30,40 +32,6 @@
             $this->view('posts/add', $data);
         }
 
-        public function takeImage()
-        {
-            if(isset($_POST['imgBase64']) && isset($_POST['filtstick']))
-            {
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-                $upload_dir = "../public/imgs/";
-                $img = $_POST['imgBase64'];
-                $filter = $_POST['filtstick'];
-                $img = str_replace('data:image/png;base64,', '', $img);
-                $img = str_replace(' ', '+', $img);
-                $data = base64_decode($img);
-                $file = $upload_dir . mktime().'.png';
-                file_put_contents($file, $data);
-                $sourceImage = $filter;
-                $destImage = $file;
-                list($srcWidth, $srcHeight) = getimagesize($sourceImage);
-                $src = imagecreatefrompng($sourceImage);
-                $dest = imagecreatefrompng($destImage);
-                imagecopyresized($dest, $src, 0, 0, 0, 0, 200, 200, $srcWidth, $srcHeight);
-                imagepng($dest, $file, 9);
-                move_uploaded_file($dest, $file);
-                $dt = ['userid' => $_SESSION['id'],
-                'imgurl' => $file          
-                ];
-                if (!empty($data)) {
-                    if ($this->postModel->save($dt) == true) {
-                        
-                    }
-                
-                }
-            }
-         
-        }
-
         public function edit_post($id)
         {
             die($id);
@@ -75,5 +43,64 @@
                 redirect('users/profile');
             else
                 die("error");
+        }
+
+        public function like(){
+            
+            
+            if(isset($_POST['post_id']) && isset($_POST['user_id']) && isset($_POST['c']) && isset($_POST['like_nbr']) && isLogged())
+            {
+                $data = [
+                    'post_id'=> $_POST['post_id'],
+                    'user_id' => $_POST['user_id'],
+                    'c' => $_POST['c'],
+                    'like_nbr' => $_POST['like_nbr']
+                ];
+                print_r($data);
+                 $this->postModel->like_nbr($data);
+                if($data['c'] == 'fa fa-heart')
+                {
+                  
+                  if($this->postModel->deleteLike($data))
+                  {
+    
+                  }
+                  else
+                  {
+                    die('error');
+                  }
+                }
+                else if($data['c'] == 'fa fa-heart-o')
+                {
+                  
+                  if($this->postModel->addLike($data))
+                  {
+                  }
+                  else
+                  {
+                    die('error');
+                  }
+                }
+                   
+             }
+        }
+
+        public function comment(){
+            if(isset($_POST['c_post_id']) && isset($_POST['c_user_id']) && isset($_POST['content']) && strlen($_POST['content']) <= 255 && isLogged())
+            {
+                $data = [
+                    'post_id'=> $_POST['c_post_id'],
+                    'user_id' => $_POST['c_user_id'],
+                    'content' => $_POST['content'],
+                ];
+                print_r($data);
+                // $com = $this->userModel->get_commenter($data['user_id']);
+                // $uid = $this->postModel->getUserByPostId($data['post_id']);
+                // $d = $this->userModel->get_dest($uid->user_id);
+                if($this->postModel->addComment($data))
+                {
+
+                }
+            }
         }
     }

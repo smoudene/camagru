@@ -1,36 +1,19 @@
 if (window.location.href == "http://localhost/camagru/posts/add")
 {
-
     var video = document.getElementById('video'),
         canvas = document.getElementById('pic'),
-        context = canvas.getContext('2d'),
-        imagefile = document.getElementById('upFile');
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
-    {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream)
-        {
-        try {
-                video.src = window.URL.createObjectURL(stream);
-        } catch (error) {
-                video.srcObject = stream;
-            }
-            video.play();
-            camera_allowed = 1;
+        context = canvas.getContext('2d');
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.oGetUserMedia || navigator.msGetUserMedia;
+        if(navigator.getUserMedia){
+            navigator.getUserMedia({video:true}, streamWebCam, throwError);
         }
-        );
-    } else if(navigator.webkitGetUserMedia) {
-    navigator.webkitGetUserMedia({ video: true }, function(stream){
-        try {
-                video.src = window.URL.createObjectURL(stream);
-            } catch (error) {
-                    video.srcObject = stream;
-            }
-        video.play();
-        camera_allowed = 1;
-    }, function(err) {
-            console.log("The following error occurred: " + err.name);
-        });
-    }
+        function streamWebCam (stream) {
+            video.srcObject = stream;
+            video.play();
+        }
+        function throwError (e) {
+            alert(e.name);
+        }
 
     document.getElementById('take').addEventListener("click", function(){
         context.drawImage(video, 0, 0, 500, 400);
@@ -62,70 +45,99 @@ if (window.location.href == "http://localhost/camagru/posts/add")
         if (hat.checked == true)
             elem.src = "../public/img/hat.png";
 
-        document.getElementById('vi').appendChild(elem); 
+        document.getElementById('vi').appendChild(elem);
+        document.getElementById('take').disabled = false;
     }
 
-    window.addEventListener('DOMContentLoaded', initImageLoder);
-    function initImageLoder(){
-        imagefile.addEventListener('change', handleManualUploadedFiles);
- 
-        function handleManualUploadedFiles(ev){
-            var file = ev.target.files[0];
-            handleFile(file);
-        }
-    }
-    function handleFile(file){
-        var reader = new FileReader();
-        reader.onloadend = function(e){
-            var tempImageStore =  new Image();
- 
-            tempImageStore.onload = function(ev){
-                h = ev.target.height;
-                w = ev.target.width;
-                context.clearRect(0, 0, w , h);
-                context.drawImage(ev.target, 0, 0, 400, 300);
-                document.getElementById('save').disabled = false;
-                document.getElementById('clear').disabled = false;
-            }
-            tempImageStore.src = ev.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-    document.getElementById('save').addEventListener('click', function(){
-        if (imgfilter.src != "")
-            {
-               saveImage();
-               reloadDIV();
-               h = canvas.height;
-               w = canvas.width; 
-               context.clearRect(0, 0, w , h);
-               context.strokeRect(0, 0, w, h);
-            }
-            else {
-                alert("Choose a sticker");
-                document.getElementById('capture').disabled = true;
-            }
-    });
-    
-    
-    function saveImage(){
-        var canvasData = canvas.toDataURL("image/png");
-        var params = "imgBase64="+canvasData+"&filtstick="+stick;
-        var xhttp = new XMLHttpRequest();
-        xhttp.open('POST', 'http://localhost/Camagru/Posts/takeImage');
-        xhttp.withCredentials = true;
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function(){if (this.readyState == 4 && this.status == 200){}}
-        xhttp.send(params);
-    }
-    function reloadDIV () {document.getElementById("ba3").innerHTML.reload}
-    
 }
+
 function editShow() {
     document.getElementById('edit_div').style.display = "block";
     document.getElementById('edit_profile').style.display = "none";
 }
+
 function editHide() {
     document.getElementById('edit_div').style.display = "none";
     document.getElementById('edit_profile').style.display = "block";
+}
+
+function menuToggle(){
+
+        const toggleMenu = document.querySelector('.mono');
+        toggleMenu.classList.toggle('active');
+}
+
+function setImage()
+{
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        document.getElementById("tempImg").setAttribute("src", e.target.result);
+    };
+    reader.readAsDataURL(input.file[0]);
+}
+
+function like(event)
+{
+  if( !event ) event = window.event;
+  var postid = (event.target && event.target.getAttribute('data-post_id'));
+  var userid = (event.target && event.target.getAttribute('data-user_id'));
+  var like_nbr = (event.target && event.target.getAttribute('data-like_nbr'));
+  var li = document.getElementById('l_'+postid);
+  var c = li.getAttribute('class');
+  var li_nb = document.getElementById('li_nb_'+postid);
+  var sym = 0;
+  if (userid == "") {
+    window.location.replace("http://localhost/camagru/users/login");
+    return ;
+  }
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('POST', 'http://localhost/camagru/posts/like');
+  xhttp.withCredentials = true;
+  if (event.target.className == "fa fa-heart-o")
+  {
+      event.target.className = "fa fa-heart";
+      like_nbr++;
+      li_nb.innerHTML = like_nbr;
+      event.target.setAttribute('data-like_nbr', like_nbr);
+      
+  }
+  else if (event.target.className == "fa fa-heart")
+  {
+      event.target.className = "fa fa-heart-o";
+      if(like_nbr <= 0)
+            sym = 1;
+      like_nbr--;
+      event.target.setAttribute('data-like_nbr', like_nbr);
+      li_nb.innerHTML = like_nbr + sym;
+
+  }
+  var params = "post_id=" + postid + "&user_id=" + userid + "&c=" + c + "&like_nbr=" + like_nbr;
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(params);
+}
+
+function comment(event)
+{
+
+  if( !event ) event = window.event;
+  var postid = (event.target && event.target.getAttribute('data-c-post_id'));
+  var userid = (event.target && event.target.getAttribute('data-c-user_id'));
+  var co = document.getElementsByName('comment_'+postid);
+  var com = co[0].value;
+
+  if(com.trim() == "" && userid != ""){
+      co[0].placeholder = 'Please enter valid comment';
+      return ;
+  }
+  if (userid == "") {
+    window.location.replace("http://localhost/camagru/users/login");
+    return;
+  }
+  var xhttp = new XMLHttpRequest();
+  var params = "c_post_id=" + postid + "&c_user_id=" + userid + "&content=" + com;
+  xhttp.open('POST', 'http://localhost/camagru/posts/comment');
+  xhttp.withCredentials = true;
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(params);
+  setInterval(function(){ window.location.reload(); }, 50);
 }
