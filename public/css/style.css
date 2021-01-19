@@ -17,6 +17,9 @@ i {
 	height: auto;
 }
 
+#log{
+	background-color: #00af91;
+}
 /* ********* */
 /* 02 Navbar */
 /* ********* */
@@ -48,8 +51,8 @@ i {
 }
 
 .profile-btn {
-	width: 2rem;
-	height: 2rem;
+	width: 2.5rem;
+	height: 2.5rem;
 	border-radius: 50%;
 	object-fit: cover;
 }

@@ -12,7 +12,7 @@
         <div class="card-body">
             <span class="p-name vcard-fullname d-block overflow-hidden"><h3 class="profile-fullname" style="font-size: 1.5vw;"><strong><?php echo ucfirst($_SESSION['user_fullname']) ?></h3></strong></span>
             <span class="p-nickname vcard-username d-block"><h5 class="profile-username text-muted mx-2" style="font-size: 1vw;"><?php echo $_SESSION['user_username'] ?></h5></span><br>
-            <span class="row p-name vcard-email d-block overflow-hidden"><strong><small class="profile-email" style="font-size: 0.6vw;"><i class="fa fa-envelope"></i><?php echo '  '.$_SESSION['user_email'] ?></small></strong></span>
+            <span class="row p-name vcard-email d-block overflow-hidden"><strong><small class="profile-email" style="font-size: 0.8vw;"><i class="fa fa-envelope"></i><?php echo '  '.$_SESSION['user_email'] ?></small></strong></span>
         </div>
         <input class="btn btn-outline-secondary w-100 mx-auto shadow" id="edit_profile" onclick="editShow()" value="Edit profile">
         <form method="post" action="<?php echo URL_ROOT; ?>/users/update_user">

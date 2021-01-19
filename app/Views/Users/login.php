@@ -9,7 +9,7 @@
         <div class="card card-body shadow p-3 mb-5 bg-white rounded mt-5 text-center">
             <?php pop_up('signup_ok'); ?>
             <?php pop_up('not_verified'); ?>
-            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>" style="font-family: Billabong; font-size: 70px; text-decoration:none;">Camagru</a></h1>
+            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>"><img src="../public/img/logoo.png" width="90" height="80"></a></h1>
             <p><strong>Sign in</strong></p>
             <form action="<?php echo URL_ROOT; ?>/users/login" method="post">
                 <div class="form-group mb-3 w-75 m-auto">
@@ -23,7 +23,7 @@
                     <span class="invalid-feedback"><?php echo $data['err_password'] ?></span>
                 </div>
                 <div class="row mb-4 w-75 ml-5 m-auto">
-                    <input type="submit" value="Log in" class="btn btn-primary btn-block">
+                    <input type="submit" value="Log in" class="btn  btn-block" id="log">
                 </div>
                 <div class="row">
                     <p>Forgot you password ? <a href="<?php echo URL_ROOT ?>/users/forgot" style="text-decoration: none;">reset password</a></p>

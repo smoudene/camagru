@@ -2,16 +2,17 @@
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4 pt-1">
       <!-- <img src="../camagru/public/img/logoo.png" width="80" height="70">  -->
-      <a class="blog-header-logo text-dark" id="logo" href="<?php echo URL_ROOT ?>/posts"><img src="../camagru/public/img/logoo.png" width="80" height="70"></a>
+      <a class="blog-header-logo text-dark" id="logo" href="<?php echo URL_ROOT ?>/posts"><img src="../public/img/logoo.png" width="80" height="70"></a>
       </div>
       <div class="col-3 text-center">
         
       </div>
       <?php if (isset($_SESSION['user_id'])) : ?>
         <div class="menu col-4 d-flex justify-content-end align-items-center w-25 h-auto">
-            <a href="<?php echo URL_ROOT ?>/users/profile"><img class="profile-btn profile border border-dark mx-3" src="<?php echo $_SESSION['user_img'] ?>" alt="profile"></a>
+        <a href="<?php echo URL_ROOT ?>/users/profile"><?php echo $_SESSION['username'] ?></a>
+            <a href="<?php echo URL_ROOT ?>/users/profile"><img class="profile-btn profile mx-3" src="<?php echo $_SESSION['user_img'] ?>" alt="profile"></a>
             <div class="list-toggle"><img class="list-btn profile border border-dark mx-3" src="<?php echo $_SESSION['user_img'] ?>" alt="profile"></a></div>
-            <a href="<?php echo URL_ROOT ?>/posts/add"><img class="cam-btn" src="../camagru/public/img/camera.png"></a>
+            <a href="<?php echo URL_ROOT ?>/posts/add"><img class="cam-btn" src="../public/img/camera.png"></a>
             <a class="btn btn-sm mx-1" href="<?php echo URL_ROOT ?>/users/logout" ><img class="out-btn" src="https://www.flaticon.com/svg/static/icons/svg/1250/1250678.svg" ></a>
         </div>
       <?php else : ?>

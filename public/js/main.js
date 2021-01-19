@@ -87,11 +87,11 @@ function like(event)
   var li_nb = document.getElementById('li_nb_'+postid);
   var sym = 0;
   if (userid == "") {
-    window.location.replace("http://localhost/camagru/users/login");
+    window.location.replace("http://192.168.99.100:8888/users/login");
     return ;
   }
   var xhttp = new XMLHttpRequest();
-  xhttp.open('POST', 'http://localhost/camagru/posts/like');
+  xhttp.open('POST', 'http://192.168.99.100:8888/posts/like');
   xhttp.withCredentials = true;
   if (event.target.className == "fa fa-heart-o")
   {
@@ -130,12 +130,12 @@ function comment(event)
       return ;
   }
   if (userid == "") {
-    window.location.replace("http://localhost/camagru/users/login");
+    window.location.replace("http://192.168.99.100:8888/users/login");
     return;
   }
   var xhttp = new XMLHttpRequest();
   var params = "c_post_id=" + postid + "&c_user_id=" + userid + "&content=" + com;
-  xhttp.open('POST', 'http://localhost/camagru/posts/comment');
+  xhttp.open('POST', 'http://192.168.99.100:8888/posts/comment');
   xhttp.withCredentials = true;
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(params);

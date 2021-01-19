@@ -4,10 +4,14 @@
 ?>
 
     <?php foreach($data['posts'] as $post) : ?>
+      <div class="container">
         <div class="post-container card card-body mb-3 shadow m-auto">
             <div class="d-flex justify-content-left h-auto mb-3 mx-2">
                 <img class="post-user  shadow my-auto" src="<?php echo $post->profile_img ?>" alt="profile">
                 <h4 class="card-title mx-2 my-auto h-auto" style="font-size: 1.5rem;"><?php echo $post->username; ?></h4>
+            </div>
+            <div class= "title">
+              <h5 class="card-title mx-4 mb-3 h-auto" style="font-size: 1rem;"><?php echo $post->title; ?></h5>
             </div>
             <div class="">
                 <img class="post-img card-img-top" src="<?php echo $post->content; ?>" alt="<?php echo $post->title; ?>">
@@ -39,19 +43,6 @@
                             </i>
                         <?php }
                         ?>
-                      <a id="li_nb_<?php echo $post->postId;?>" class="card-link text-muted"><?php echo $post->like_nbr;?></a>
-              
-                      <a class="card-link"><i class="fa fa-comment"></i> Comments</a>
-
-                      <div class="cardbox-comments mt-2">
-                          
-                          <textarea name="comment_<?php echo $post->postId;?>" class="form-control w-100 mb-2" placeholder="write a comment..." rows="1" style="resize:none"></textarea>
-                          <button onclick="comment(event)"
-                            data-c-user_id="<?php echo $_SESSION['user_id'];?>"
-                            data-c-post_id="<?php echo $post->postId;?>" class="btn btn-secondary pull-right">Add</button>
-                        
-                          <br>
-                      </div>
                       <?php
                         if(is_array($data['comments']))
                         {

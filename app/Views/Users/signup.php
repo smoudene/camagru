@@ -7,7 +7,7 @@
 
     <div class="col-md-6 mx-auto">
         <div class="card card-body shadow p-3 mb-5 bg-white rounded mt-5 text-center">
-            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>" style="font-family: Billabong; font-size: 70px; text-decoration:none;">Camagru</a></h1>
+            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>"><img src="../public/img/logoo.png" width="90" height="80"></a></h1>
             <p><strong>Sign up to share your wolrd</strong></p>
             <form action="<?php echo URL_ROOT; ?>/users/signup" method="post">
                 <div class="form-group mb-3 w-75 m-auto">
@@ -36,7 +36,7 @@
                     <span class="invalid-feedback"><?php echo $data['err_confirmPwd'] ?></span>
                 </div>
                 <div class="row mb-4 w-75 ml-5 w-75 m-auto">
-                    <input type="submit" value="Sign up" class="btn btn-primary btn-block">
+                    <input type="submit" value="Sign up" class="btn  btn-block" id="log">
                 </div>
                 <div class="row">
                     <p>Already have an account? <a href="<?php echo URL_ROOT ?>/users/login" style="text-decoration: none;">Log in</a></p>
