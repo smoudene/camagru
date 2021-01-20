@@ -143,6 +143,7 @@ i {
 	border-radius: 50%;  
 	border: none;
 	object-fit: cover;
+	float: left;
 }
 
 .card-footer {
@@ -152,6 +153,7 @@ i {
 
 .comment {
 	background-color: white;
+	float: left;
 }
 
 .comment ul{

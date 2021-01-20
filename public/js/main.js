@@ -141,3 +141,17 @@ function comment(event)
   xhttp.send(params);
   setInterval(function(){ window.location.reload(); }, 50);
 }
+
+function showDiv(event)
+{
+    if( !event ) event = window.event;
+    var postid = (event.target && event.target.getAttribute('data-b-post_id'));
+
+    //console.log('block_'+postid);
+    
+    var comment_id = document.getElementById('block_'+postid);
+    if (comment_id.style.display === "block")  {comment_id.style.display = "none"; return (0);}
+    if (comment_id.style.display === "none")  {comment_id.style.display = "block"; return (0);}
+  /*var userid = (event.target && event.target.getAttribute('data-b-user_id'));
+  var si = document.getElementById('s_'+postid); */
+}

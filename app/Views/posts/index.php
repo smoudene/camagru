@@ -9,6 +9,9 @@
                 <img class="post-user  shadow my-auto" src="<?php echo $post->profile_img ?>" alt="profile">
                 <h4 class="card-title mx-2 my-auto h-auto" style="font-size: 1.5rem;"><?php echo $post->username; ?></h4>
             </div>
+            <div class="d-flex justify-content-left h-auto mb-3 mx-3">
+              <h5 class="card-title mx-2 my-auto h-auto" style="font-size: 1.0rem;font-family:Gill Sans Extrabold, sans-serif;"><?php echo $post->title; ?></h5>
+            </div>
             <div class="">
                 <img class="post-img card-img-top" src="<?php echo $post->content; ?>" alt="<?php echo $post->title; ?>">
             </div>
@@ -43,19 +46,30 @@
                         ?>
                       <strong><p id="li_nb_<?php echo $post->postId;?>" class="card-link text-muted"><?php echo $post->like_nbr;?> Likes</p></strong>
                       </div>
-                      <div class="col-sm"><i class="fa fa-comment"></i> Comments</div>
+                      <div class="col-sm">
+                        <i class="fa fa-comment"  
+                          data-b-post_id="<?php echo $post->postId;?>"
+                          onclick="showDiv(event)" 
+                          id="s_<?php echo $post->postId;?>"
+                          name="sh_<?php echo $post->postId;?>">
+                        </i>Comments</div>
                       </div>
 
-                      <div class="cardbox-comments mt-2">
+                      
+                      <div class="create_date mt-2">
+                        <p><?php echo $post->create_at; ?></p>
+                    </div>
+            </div>
+            <div class="comment border shadow" id="block_<?php echo $post->postId;?>" style="display:none" > 
+
+            <div class="cardbox-comments mt-2">
                           
                           <textarea name="comment_<?php echo $post->postId;?>" class="form-control w-100 mb-2" placeholder="write a comment..." rows="1" style="resize:none"></textarea>
                           <button onclick="comment(event)"
                             data-c-user_id="<?php echo $_SESSION['user_id'];?>"
                             data-c-post_id="<?php echo $post->postId;?>" class="btn btn-secondary pull-right">Add</button>
-                        
                           <br>
                       </div>
-                      <div class="comment border shadow">
                         <?php
                           if(is_array($data['comments']))
                           {
@@ -76,11 +90,8 @@
                               }
                             }
                           }?>
+              </div>
                         </div>
-                      <div class="create_date mt-2">
-                        <p><?php echo $post->create_at; ?></p>
-                    </div>
-            </div>
         </div>
     <?php endforeach;  ?>
 <?php require_once CAMAGRU_ROOT . '/Views/inc/footer.php'; ?>
