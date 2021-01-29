@@ -67,18 +67,29 @@
                         $to_email = $data['email'];
                         $subject = "Verify you email";
                         $token = $data['token'];
-                        $body = '<p><h1>Welcome to Camagru</h1>,
-                            <br /><br />
-                            <br/>
-                            To verify your account click here 
-                            <a href="'.URL_ROOT.'/users/verification/?token='.$token.'">click here.</a>
-                            </p>
-                            <p>
-                                <br />--------------------------------------------------------
-                                <br />This is an automatic mail , please do not reply.
-                            </p>';
+                        $body = '<div class="email-container" style="background-whitesmoke: #0C1117; width: 700px; height: 500px;padding: 20px;">
+                        <div class="title" style=\'color: black; text-align: center; font-family: billabong;font-size: 200%;\'><h1>Camagru</h1></div>
+                        <div class="welcome"><h2 style=\'color: black; text-align: left; font-family: "Gill Sans", sans-serif;\'>Hi '.$data['username'].',</h2></div>
+                        <div class="reset"><h3 style=\'color: black; text-align: left; font-family: "Gill Sans", sans-serif;\'>Verify you account</h3></div>
+                        <div class="body"><p style=\'color: black; text-align: left; font-family: "Gill Sans", sans-serif;\'>
+                        You\'re receiving this email because you requested an account verification for your CAMAGRU Account.<br/> If you did not request this verification, you can safely ignore this email.<br/>
+                        <br/>
+                    
+                        To verify you account and complete your request, please follow the link below:<br/>
+                        <a href="'.URL_ROOT.'/users/verification/?token='.$token.'">click here.</a>
+                        <br/>
+                        <br/>
+                    
+                        If it is not clickable, please copy and paste the URL into your browser\'s address bar.
+                        <br/>
+                        <br/>
+                        <br/>
+                        The CAMAGRU Team.
+                        </p>
+                        </div>
+                        </div>';
                         $headers = "Content-type:text/html;charset=UTF-8" . "\r\n";
-                        $headers .= 'From: <oes-safi@Camagru.ma>' . "\r\n";    
+                        $headers .= 'From: <smoudene>' . "\r\n";    
                         if (mail($to_email, $subject, $body, $headers))
                                 pop_up('signup_ok', 'You are now part of our community, Verify your email to login');
                             else
@@ -202,27 +213,40 @@
                         $to_email = $data['forgotEmail'];
                         $subject = "Reset password";
                         $user = $this->userModel->getUserToken($data['forgotEmail']);
-                        $body = '<p><h1>Reset Password</h1>,
-                            <br /><br />
-                            <br/>
-                            To reset your password click here 
-                            <a href="'.URL_ROOT.'/users/newpassword/?token='.$user->token.'&id='.$user->id.'">click here.</a>
-                            </p>
-                            <p>
-                                <br />--------------------------------------------------------
-                                <br />This is an automatic mail , please do not reply.
-                            </p>';
+                        $body = '<div class="email-container" style="background-color: #white; width: 700px; height: 500px;padding: 20px;">
+                        <div class="title" style=\'color: black; text-align: center; font-family: billabong;font-size: 200%;\'><h1>Camagru</h1></div>
+                        <div class="welcome"><h2 style=\'color: black; text-align: left; font-family: "Gill Sans", sans-serif;\'>Hi '.$user->username.',</h2></div>
+                        <div class="reset"><h3 style=\'color: black; text-align: left; font-family: "Gill Sans", sans-serif;\'>Reset your password</h3></div>
+                        <div class="body"><p style=\'color: black; text-align: left; font-family: "Gill Sans", sans-serif;\'>
+                        You\'re receiving this email because you requested a password reset for your CAMAGRU Account.<br/> If you did not request this change, you can safely ignore this email.<br/>
+                        <br/>
+                    
+                        To choose a new password and complete your request, please follow the link below:<br/>
+                        <a href="'.URL_ROOT.'/users/newpassword/?token='.$user->token.'&id='.$user->id.' style=\'color: #8DA2FB;\'"><strong>click here.</strong></a>
+                        <br/>
+                        <br/>
+                    
+                        If it is not clickable, please copy and paste the URL into your browser\'s address bar.
+                        <br/>
+                        <br/>
+                        <br/>
+                        The CAMAGRU Team.
+                        </p>
+                        </div>
+                        </div>';
                         $headers = "Content-type:text/html;charset=UTF-8" . "\r\n";
-                        $headers .= 'From: <smoudene@Camagru.ma>' . "\r\n";    
+                        $headers .= 'From: <smoudene>' . "\r\n";
                         if (mail($to_email, $subject, $body, $headers))
+                        {
                             pop_up('signup_ok', 'Reset password verification sent to your email');
+                            redirect('users/login');
+                        }
                         else
                             pop_up('signup_ok', 'Can not send email verificaton, please retry', 'alert alert-danger');
                 }
-                $this->view('users/forgot', $data); 
+                $this->view('users/forgot', $data);
             }
         }
-
         public function createUserSession($user)
         {
             $_SESSION['user_id'] = $user->id;
@@ -230,6 +254,7 @@
             $_SESSION['user_username'] = $user->username;
             $_SESSION['user_fullname'] = $user->fullname;
             $_SESSION['user_img'] = $user->profile_img;
+            $_SESSION['notification'] = $user->notification;
 
             redirect('posts');
         }
@@ -243,6 +268,11 @@
                 if ($this->userModel->verify($token))
                 {
                     pop_up('signup_ok', 'Your account is verified succesfully');
+                    redirect('users/login');
+                }
+                else
+                {
+                    pop_up('signup_ok', 'Failed to verify your accout', 'alert alert-danger text-center');
                     redirect('users/login');
                 }
             }
@@ -263,6 +293,10 @@
                 {
                     $this->view('users/reset', $data);
                 }
+                else {
+                    pop_up('signup_ok', 'Token not found', 'alert alert-danger');
+                    redirect('users/login');
+                }
             }
             else
                 die('error');
@@ -282,6 +316,13 @@
 
                 if (empty($data['newPassword']))
                     $data['err_newPassword'] = 'please enter password !!';
+                else if (strlen($data['password']) < 6)
+                    $data['err_password'] = 'Password must be at least 6 characters';
+                else if (!preg_match('@[A-Z]@', $data['password']))
+                    $data['err_password'] = 'Password must contain an upper case';
+                else if (!preg_match('@[a-z]@', $data['password']))
+                    $data['err_password'] = 'Password must contain a  lower case';
+                else if (!preg_match('@[0-9]@', $data['password']))
                 
                 if (empty($data['err_newPassword']))
                 {
@@ -289,6 +330,10 @@
                     if($this->userModel->update_pass($data['newPassword'], $data['id']))
                     {
                         pop_up('signup_ok', 'Password updated');
+                        redirect('users/login');
+                    }
+                    else {
+                        pop_up('signup_ok', 'Password not updated', 'alert alert-danger');
                         redirect('users/login');
                     }
                 }
@@ -319,6 +364,11 @@
                     $_SESSION['user_username'] = $_POST['new_username'];
                     redirect('users/profile');
                 }
+                else
+                {
+                    pop_up('updated', 'Username not updated', 'pop alert alert-danger w-50 mx-auto text-center');
+                    redirect('users/profile');
+                }
             }
             else
                 redirect('users/profile');
@@ -329,6 +379,11 @@
                 {
                     pop_up('updated', 'Fullname updated ✓', 'pop alert alert-success w-50 mx-auto text-center');
                     $_SESSION['user_fullname'] = $_POST['new_fullname'];
+                    redirect('users/profile');
+                }
+                else
+                {
+                    pop_up('updated', 'fullname not updated', 'pop alert alert-danger w-50 mx-auto text-center');
                     redirect('users/profile');
                 }
             }
@@ -349,37 +404,57 @@
             
             if(!empty($_POST['new_password']))
             {
-                $_POST['new_password'] = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-                if($this->userModel->update_pass($_POST['new_password'], $data['id']))
+                if ((strlen($_POST['new_password']) < 6) || (!preg_match('@[A-Z]@', $_POST['new_password'])) || (!preg_match('@[a-z]@', $_POST['new_password'])) || (!preg_match('@[0-9]@', $_POST['new_password'])))
                 {
-                    pop_up('updated', 'Password updated ✓', 'pop alert alert-success w-50 mx-auto text-center');
+                    pop_up('updated', 'Password not valid ✓', 'pop alert alert-danger w-50 mx-auto text-center');
                     redirect('users/profile');
+                }
+                else
+                {
+                    $_POST['new_password'] = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+                    if($this->userModel->update_pass($_POST['new_password'], $data['id']))
+                    {
+                        pop_up('updated', 'Password updated ✓', 'pop alert alert-success w-50 mx-auto text-center');
+                        redirect('users/profile');
+                    }
+                    else
+                {
+                    pop_up('updated', 'password not updated', 'pop alert alert-danger w-50 mx-auto text-center');
+                    redirect('users/profile');
+                }
                 }
             }
             else
                 redirect('users/profile');
 
-        }
-
-        public function get_commenter($user_id)
-        {
-            $this->db->query('SELECT * FROM users WHERE id = :id');
-            $this->db->bind(':id',$user_id);
-            $result = $this->db->single();
-            if($result)
-            return ($result);
-            else
-            return false;
-            } 
-
-            public function get_dest($user_id)
+            if(!empty($_POST['notifs']))
             {
-            $this->db->query('SELECT * FROM users WHERE id = :id');
-            $this->db->bind(':id',$user_id);
-            $result = $this->db->single();
-            if($result)
-            return ($result);
+                if($this->userModel->update_notifs($data['id'], 1))
+                {
+                    pop_up('updated', 'notification updated ✓', 'pop alert alert-success w-50 mx-auto text-center');
+                    $_SESSION['notification'] = 1;
+                    redirect('users/profile');;
+                }
+                else
+                {
+                    pop_up('updated', 'notification not updated', 'pop alert alert-danger w-50 mx-auto text-center');
+                    redirect('users/profile');
+                }
+            }
             else
-            return false;
-  	    } 
+            {
+                if($this->userModel->update_notifs($data['id'], 0))
+                {
+                    pop_up('updated', 'Notification updated ✓', 'pop alert alert-success w-50 mx-auto text-center');
+                    $_SESSION['notification'] = 0;
+                    redirect('users/profile');;
+                }
+                else
+                {
+                    pop_up('updated', 'notification not updated', 'pop alert alert-danger w-50 mx-auto text-center');
+                    redirect('users/profile');
+                }
+            }
+
+        }
     }

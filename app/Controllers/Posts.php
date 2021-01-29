@@ -8,28 +8,77 @@
                 redirect('users/login');
 
             $this->postModel = $this->model('Post');
+            $this->userModel = $this->model('User');
         }
 
         public function index()
         {
-            $post = $this->postModel->getPosts();
+            $postsPerPage = 5;
+            $totalPosts = $this->postModel->count_posts();
+            $totalPages = ceil($totalPosts/$postsPerPage);
+
+            if(isset($_GET['page']) AND !empty($_GET['page']) AND $_GET['page'] > 0 AND $_GET['page'] <= $totalPages){
+
+            $_GET['page'] = intval($_GET['page']);
+            $currentPage = $_GET['page'];    
+            }else
+            $currentPage = 1;
+
+            $depart = ($currentPage - 1) * $postsPerPage;
+            $post = $this->postModel->getPostsPage($depart, $postsPerPage);
             $likes = $this->postModel->getlikes();
             $comments = $this->postModel->getcomments();
             $data = [
                 'posts' =>$post,
                 'likes' => $likes,
-                'comments'=> $comments
+                'comments'=> $comments,
+                'totalPages' => $totalPages,
+                'currentPage' => $currentPage,
+                'depart' => $depart
             ];
             $this->view('posts/index', $data);
         }
 
         public function add()
         {
+            $post = $this->postModel->getPosts();
             $data = [
+                'posts' =>$post,
                 'title' =>'',
                 'content' => ''
             ];
             $this->view('posts/add', $data);
+        }
+
+        public function saveImage(){
+		if(isset($_POST['imgBase64']) && isset($_POST['emoticon']))
+        {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $upload_dir = "../public/img/";
+            $img = $_POST['imgBase64'];
+            $emo = $_POST['emoticon'];
+            $img = str_replace('data:image/png;base64,', '', $img);
+            $img = str_replace(' ', '+', $img);
+            $d = base64_decode($img);
+            $file = $upload_dir.mktime().'.png';
+            file_put_contents($file, $d);
+
+            list($srcWidth, $srcHeight) = getimagesize($emo);
+            $src = imagecreatefrompng($emo);
+            $dest = imagecreatefrompng($file);
+            imagecopy($dest, $src, 11,11, 0, 0, $srcWidth, $srcHeight);
+            imagepng($dest, $file, 9);
+            move_uploaded_file($dest, $file);
+
+            $data =[
+                'user_id'  => $_SESSION['user_id'],
+                'path' => $file,
+            ];
+            if($this->postModel->save($data)){
+                
+            }else
+                return false;	  
+            }
         }
 
         public function edit_post($id)
@@ -39,8 +88,12 @@
 
         public function del_post($post_id)
         {
-            if($this->postModel->del($post_id))
+            $post = $this->postModel->getPostById($post_id);
+            if($this->postModel->del($post_id) && $this->postModel->del_comments($post_id) && $this->postModel->del_likes($post_id))
+            {
+                unlink($post->content);
                 redirect('users/profile');
+            }
             else
                 die("error");
         }
@@ -93,13 +146,21 @@
                     'user_id' => $_POST['c_user_id'],
                     'content' => $_POST['content'],
                 ];
-                print_r($data);
-                // $com = $this->userModel->get_commenter($data['user_id']);
-                // $uid = $this->postModel->getUserByPostId($data['post_id']);
-                // $d = $this->userModel->get_dest($uid->user_id);
-                if($this->postModel->addComment($data))
+                $sender = $this->userModel->gets_user($data['user_id']);
+                $uid = $this->postModel->getPostById($data['post_id']);
+                $dest = $this->userModel->gets_user($uid->user_id);
+                if($this->postModel->addComment($data) && $dest->notification == 1)
                 {
-
+                        $to_email = $dest->email;
+                        $subject = "New Comment";
+                        $body = '<p><h1>You have recieved a comment on one of your posts</h1>
+                            <br /><br />
+                            <br/> 
+                            '.$sender->username.' has commented on your post.
+                            </p>';
+                        $headers = "Content-type:text/html;charset=UTF-8" . "\r\n";
+                        $headers .= 'From: <smoudene>' . "\r\n";    
+                        mail($to_email, $subject, $body, $headers);
                 }
             }
         }

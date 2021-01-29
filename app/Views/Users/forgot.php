@@ -3,16 +3,16 @@
 <div class="col-md-6 mx-auto">
     <div class="card card-body shadow p-3 mb-5 bg-white rounded mt-5 text-center">
         <?php pop_up('signup_ok'); ?>
-            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>" style="font-family: Billabong; font-size: 70px; text-decoration:none;">Camagru</a></h1>
+            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>"><img src="../public/img/logo.png" height="70" width="80"></a></h1>
             <p><strong>Enter yout email to reset password</strong></p>
             <form action="<?php echo URL_ROOT; ?>/users/reset" method="post">
                 <div class="form-group mb-3 w-75 m-auto">
                     <input type="text" name="forgotEmail" class="form-control form-control-lg 
                         <?php echo (!empty($data['err_forgotEmail'])) ? 'is-invalid' : ''; ?>" placeholder="Email" value="<?php echo $data['forgotEmail']; ?>">
-                    <span class="invalid-feedback"><?php echo $data['err_forgotEmail'] ?></span>
+                    <span class="invalid-feedback"><?php if (!empty($data['err_forgotEmail'])) echo $data['err_forgotEmail'] ?></span>
                 </div>
                 <div class="row mb-4 w-75 ml-5 m-auto">
-                    <input type="submit" value="Reset password" class="btn btn-primary btn-block">
+                    <input type="submit" value="Reset password" class="sub btn btn-primary btn-block">
                 </div>
             </form>
         </div>
