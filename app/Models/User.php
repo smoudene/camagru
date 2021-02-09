@@ -37,22 +37,26 @@
                 return false;
         }
 
-        public function verify($token)
+        public function verify($token, $type)
         {
             $this->db->query('SELECT * FROM users WHERE token = :token');
             $this->db->bind(':token', $token);
             
             $row = $this->db->singleFetch();
 
-
         if ($this->db->rowCount() > 0)
         {
-            $this->db->query('UPDATE users SET verified = 1 WHERE token = :token');
-            $this->db->bind(':token', $token);
-            if ($this->db->execute())
-                return true;
+            if ($type == 1)
+            {
+                $this->db->query('UPDATE users SET verified = 1 WHERE token = :token');
+                $this->db->bind(':token', $token);
+                if ($this->db->execute())
+                    return true;
+                else
+                    return false;
+            }
             else
-               return false;
+                return true;
         }
         else
             return false;
@@ -62,8 +66,6 @@
 
             $this->db->query('SELECT * FROM users WHERE email = :email');
             $this->db->bind(':email', $email);
-
-            $row = $this->db->singleFetch();
 
             if ($this->db->rowCount() > 0)
                 return true;
@@ -75,8 +77,6 @@
 
             $this->db->query('SELECT * FROM users WHERE username = :username');
             $this->db->bind(':username', $username);
-
-            $row = $this->db->singleFetch();
 
             if ($this->db->rowCount() > 0)
                 return true;
@@ -122,6 +122,7 @@
         }
 
         public function update_pass($new_password, $id){
+            //die("in");
 
             $this->db->query('UPDATE users SET password = :password WHERE id = :id');
             $this->db->bind(':password', $new_password);
@@ -159,8 +160,7 @@
         }
 
         public function gets_user($user_id)
-        {
-            
+        {   
             $this->db->query('SELECT * FROM users WHERE id = :id');
             $this->db->bind(':id',$user_id);
             $result = $this->db->singleFetch();
@@ -168,5 +168,23 @@
                 return ($result);
             else
                 return false;
+        }
+
+        public function setPhoto($post_img, $user_id)
+        {   
+            $this->db->query('SELECT * FROM posts WHERE content = :img AND user_id = :id');
+            $this->db->bind(':img',$post_img);
+            $this->db->bind(':id',$user_id);
+  
+            if ($this->db->rowCount() > 0)
+            {
+                $this->db->query('UPDATE users SET profile_img = :img WHERE id = :id');
+                $this->db->bind(':img',$post_img);
+                $this->db->bind(':id',$user_id);
+                if ($this->db->execute())
+                    return true;
+                else
+                    return false;
+            }
         } 
     }

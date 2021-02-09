@@ -10,11 +10,11 @@
     <div class="infos h-auto">
         <img src="<?php echo $_SESSION['user_img'] ?>" class="profile-pic card-img-top shadow" alt="profile">
         <div class="card-body">
-            <span class="p-name vcard-fullname d-block overflow-hidden"><h3 class="profile-fullname"><strong><?php echo ucfirst($_SESSION['user_fullname']) ?></h3></strong></span>
-            <span class="p-nickname vcard-username d-block"><h5 class="profile-username text-muted mx-2"><?php echo $_SESSION['user_username'] ?></h5></span><br>
+            <span class="p-name vcard-fullname d-block overflow-hidden"><h3 class="profile-fullname"><strong><?php echo htmlspecialchars(ucfirst($_SESSION['user_fullname'])) ?></h3></strong></span>
+            <span class="p-nickname vcard-username d-block"><h5 class="profile-username text-muted mx-2"><?php echo htmlspecialchars($_SESSION['user_username']) ?></h5></span><br>
             <span class="row p-name vcard-email d-block overflow-hidden"><strong><small class="profile-email"><i class="fa fa-envelope"></i><?php echo '  '.$_SESSION['user_email'] ?></small></strong></span>
         </div>
-        <input class="btn btn-outline-secondary shadow" id="edit_profile" onclick="editShow()" value="Edit profile">
+        <input type="button" class="btn btn-outline-secondary shadow" id="edit_profile" onclick="editShow()" value="Edit profile">
         <form method="post" action="<?php echo URL_ROOT; ?>/users/update_user">
             <div class="card-body row" id="edit_div">
                 <div class="d-flex my-2">
@@ -50,8 +50,19 @@
                     <div class="p-2 mb-3 w-auto h-100">
                         <img class="gallery-img card-img-top rounded w-100 mb-3 shadow" style="height: 20rem; object-fit:fill;" src="<?php echo $post->content; ?>" alt="<?php echo $post->title; ?>">
                         <div class="w-100 h-auto">
-                            <a href="<?php echo URL_ROOT; ?>/posts/del_post/<?php echo $post->postId ?>"><input type="submit" value="Delete" name="delete" class="del-btn col-4 btn btn-outline-danger shadow"></a><br>
-                            <input class="btn btn-outline-secondary shadow" value="make as profile pic">
+                            <!-- <a href="<?php echo URL_ROOT; ?>/posts/del_post/<?php echo $post->postId ?>/1"><input type="submit" value="Delete" name="delete" class="del-btn col-4 btn btn-outline-danger shadow h-auto"></a>
+                            <a href="<?php echo URL_ROOT; ?>/users/set_pdp/<?php echo $post->postId ?>"><input type="submit" value="Set as profile" name="set" class="set-btn col-4 btn btn-outline-info shadow h-auto"></a> -->
+                            <i class="fa fa-ellipsis-v" 
+                            data-b-post_id="<?php echo $post->postId;?>"
+                          onclick="params(event)"
+                          id="m_<?php echo $post->postId;?>"
+                          name="me_<?php echo $post->postId;?>"></i>
+                            <div style="display:none;" id="params_<?php echo $post->postId ?>">
+                            <ul id="ull">
+                                <li id="li"><a href="<?php echo URL_ROOT; ?>/posts/del_post/<?php echo $post->postId ?>/1"><input type="submit" value="Delete" name="delete" class="btn btn-sm btn-outline-secondary mx-2" id="log"></li>
+                                <li id="li"><a href="<?php echo URL_ROOT; ?>/users/set_pdp/<?php echo $post->postId ?>"><input type="submit" value="Set as profile" name="set" class="btn btn-sm btn-outline-secondary mx-2" id="log"></a></li>
+                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

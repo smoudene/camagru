@@ -12,7 +12,7 @@
                     <span class="invalid-feedback"><?php if (!empty($data['err_forgotEmail'])) echo $data['err_forgotEmail'] ?></span>
                 </div>
                 <div class="row mb-4 w-75 ml-5 m-auto">
-                    <input type="submit" value="Reset password" class="sub btn btn-primary btn-block">
+                    <input type="submit" value="Reset password" class="btn btn-primary btn-block bg-dark">
                 </div>
             </form>
         </div>

@@ -1,7 +1,7 @@
 <header class="blog-header py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4 pt-1">
-        <a class="blog-header-logo text-dark" id="logo" href="<?php echo URL_ROOT ?>/posts"><img src="../public/img/logo.png" height="70" width="80"></a>
+        <a class="blog-header-logo text-dark" id="logo" href="<?php echo URL_ROOT ?>/posts"><img src="../public/img/logo.png" height="80" width="95"></a>
       </div>
       <div class="col-3 text-center">
         
@@ -14,7 +14,7 @@
             <ul>
               <li><a class="btn btn-sm" href="<?php echo URL_ROOT ?>/users/profile"><img class="list-profile-btn profile border border-dark" src="<?php echo $_SESSION['user_img'] ?>" alt="profile"> Profile</a></li>
               <li><a class="btn btn-sm" href="<?php echo URL_ROOT ?>/posts/add"><img class="list-cam-btn" src="../public/img/camera.png"> Camera</a></li>
-              <li><a class="btn btn-sm" href="<?php echo URL_ROOT ?>/users/logout" ><img class="out-btn" src="https://www.flaticon.com/svg/static/icons/svg/1250/1250678.svg"> Log out</a></li>
+              <li><a class="btn btn-sm" href="<?php echo URL_ROOT ?>/users/logout" ><img class="out-btn" src="https://www.flaticon.com/svg/static/icons/svg/1250/1250678.svg"> Logout</a></li>
             </ul>
           </div>
           </div>
@@ -23,8 +23,8 @@
         </div>
       <?php else : ?>
       <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="btn btn-sm btn-outline-secondary mx-2" href="<?php echo URL_ROOT ?>/users/login">Log in</a>
-        <a class="btn btn-sm btn-outline-secondary" href="<?php echo URL_ROOT ?>/users/signup">Sign up</a>
+        <a class="btn btn-sm btn-outline-secondary mx-2" id="log" href="<?php echo URL_ROOT ?>/users/login">Login</a>
+        <a class="btn btn-sm btn-outline-secondary" id="log" href="<?php echo URL_ROOT ?>/users/signup">Signup</a>
       </div>
       <?php endif; ?>
     </div>

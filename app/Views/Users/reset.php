@@ -4,7 +4,7 @@
         <div class="card card-body shadow p-3 mb-5 bg-white rounded mt-5 text-center">
             <?php pop_up('signup_ok'); ?>
             <?php pop_up('not_verified'); ?>
-            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>"><img src="../public/img/logo.png" height="70" width="80"></a></h1>
+            <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>"></a></h1>
             <p><strong>Enter yout new password</strong></p>
             <form action="<?php echo URL_ROOT; ?>/users/updatepass/<?php echo $data['id'] ?>" method="post">
                 <div class="form-group mb-3 w-75 m-auto">
@@ -13,7 +13,7 @@
                     <span class="invalid-feedback"><?php if (!empty($data['err_newPassword'])) echo $data['err_newPassword'] ?></span>
                 </div>
                 <div class="row mb-4 w-75 ml-5 m-auto">
-                    <input type="submit" value="Reset" class="sub btn btn-primary btn-block">
+                    <input type="submit" value="Reset" class="btn btn-primary btn-block bg-dark">
                 </div>
             </form>
         </div>

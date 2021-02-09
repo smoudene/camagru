@@ -10,30 +10,27 @@
 
 body {
 	background-color: whitesmoke;
+	padding-bottom: 50px;
 }
 
 i {
 	width: 30px;
 	height: auto;
 }
-.sub{
-	background-color: black;
-	border: none;
-	color: white;
+
+footer {
+	position: fixed;
+	bottom: 0px;
+	left: 0;
+	right: 0;
+ 	width:100%;
 }
-.sub:hover{
-	background-color: black;
-	color: white;
+.btn{
+	border: none;
 }
 /* ********* */
 /* 02 Navbar */
 /* ********* */
-
-#logo {
-	font-family: Billabong;
-	font-size: 50px;
-	text-decoration:none;
-}
 
 .out-btn {
 	width: 1.5rem;
@@ -126,14 +123,13 @@ i {
 		width: 20vw;
 		height: 20vw;
 		object-fit: cover;
-	
+	}
+
+	#log:hover{
+			border-bottom: solid 4px transparent;
 	}
 }
 
-@media screen and (min-width:1200px)
-{
-	
-}
 /* ************* */
 /* 03 Index page */
 /* ************* */
@@ -164,7 +160,7 @@ i {
 	height: 3rem;
 	border-radius: 50%;  
 	border: 1px solid black;
-	/* object-fit: cover; */
+
 }
 
 .card-footer {
@@ -197,7 +193,13 @@ i {
 	border-top: 0.5px solid Gainsboro ;
 }
 
-
+.delete-comment {
+	width: 1rem;
+	height: 1rem;
+	position: relative;
+	top: -20px;
+	left: -10px;
+}
 /* **************** */
 /* 04 Post Add page */
 /* **************** */
@@ -235,18 +237,10 @@ i {
 }
 
 .filter_img {
-	width: 100%;
-	height: 100%;
+	width: 4rem;
+	height: 4rem;
 }
 
-#filters
-{
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	width: 5vw;
-	height: 5vw;
-}
 
 #pic {
 	width: 100%;
@@ -257,20 +251,55 @@ i {
 	width: 5%;
 }
 
-@media screen and (max-width:800px)
+.add-img {
+	height: 15vh;
+	width:15vh; 
+	object-fit:fill;
+}
+
+#filters
 {
-	#thum {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-	.filter_img {
-		width: 2vh;
-		height: 2vh;
-		position: relative;
-		left: -10px;
-		top: 7px;
-	}
+	position: absolute;
+	top: 2%;
+	left: 2%;
+	width: 11%;
+	height: 15%;
+}
+#filters2
+{
+	position: absolute;
+	top: 70%;
+	left: 0%;
+	width: 11%;
+	height: 15%;
+}
+#filters3
+{
+	position: absolute;
+	top: 70%;
+	left: 85%;
+	width: 11%;
+	height: 15%;
+}
+#filters1
+{
+	position: absolute;
+	top: 0%;
+	left: 89%;
+	width: 11%;
+	height: 15%;
+}
+
+.filter {
+	width: 5%;
+	margin-right:10px ;
+}
+
+.column {
+	background-color: #acb2b6;
+	float: left;
+	width: 4rem;
+	height: auto;
 }
 
 label {
@@ -336,7 +365,7 @@ label {
 	border-radius: 50%;
 	width: 12vw;
 	height: 12vw;
-	object-fit: cover;
+	object-fit: fill;
 
 }
 .update-btn {
@@ -373,7 +402,11 @@ label {
 }
 
 .del-btn {
-	width: 40%;
+	width: 30%;
+}
+
+.set-btn {
+	width: 60%;
 }
 
 .card-img-top {
@@ -389,23 +422,11 @@ label {
 }
 
 .profile-email {
-	font-size: 0.6vw;
+	font-size: 0.8vw;
 }
 
 @media screen and (max-width:800px)
 {
-	#thum {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-	.filter_img {
-		width: 2vh;
-		height: 2vh;
-		position: relative;
-		left: -10px;
-		top: 7px;
-	}
 
 	.information {
 		display: flex;
@@ -448,5 +469,29 @@ label {
 	.profile-email
 	{
 		font-size: 3vw;
+	}
+}
+.respon1{
+	display: none;
+	opacity: 0;
+
+}
+
+.respon{
+	
+	visibility: visible;
+	opacity: 1;
+}
+@media screen and (max-width: 768px) {
+	.respon1{
+		display: block;
+		opacity: 1;
+	}
+
+	.respon{
+		display: none;
+		opacity: 0;
+		width: 0vw;
+		height: 0vh;
 	}
 }

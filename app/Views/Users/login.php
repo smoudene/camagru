@@ -6,7 +6,7 @@
 ?>
 
 <div class="col-md-6 mx-auto">
-        <div class="card card-body shadow p-3 mb-5 bg-white rounded mt-5 text-center">
+        <div class="card card-body shadow p-3 mb-5 rounded mt-5 text-center" id="logg">
             <?php pop_up('signup_ok'); ?>
             <?php pop_up('not_verified'); ?>
             <h1><a class="blog-header-logo text-dark" href="<?php echo URL_ROOT ?>"><img src="../public/img/logo.png" height="70" width="80"></a></h1>
@@ -14,16 +14,16 @@
             <form action="<?php echo URL_ROOT; ?>/users/login" method="post">
                 <div class="form-group mb-3 w-75 m-auto">
                     <input type="text" name="username" class="form-control form-control-lg 
-                        <?php echo (!empty($data['err_username'])) ? 'is-invalid' : ''; ?>" placeholder="username" value="<?php echo $data['username']; ?>">
+                        <?php echo (!empty($data['err_username'])) ? 'is-invalid' : ''; ?>" placeholder="username" value="<?php echo htmlspecialchars($data['username']); ?>">
                     <span class="invalid-feedback"><?php echo $data['err_username'] ?></span>
                 </div>
                 <div class="form-group mb-3 w-75 m-auto">
-                    <input type="password" name="password" class="form-control form-control-lg 
+                    <input type="password" name="password" class="form-control form-control-lg
                         <?php echo (!empty($data['err_password'])) ? 'is-invalid' : ''; ?>" placeholder="password" value="<?php echo $data['password']; ?>">
                     <span class="invalid-feedback"><?php echo $data['err_password'] ?></span>
                 </div>
                 <div class="row mb-4 w-75 ml-5 m-auto">
-                    <input type="submit" value="Log in" class="sub btn btn-primary btn-block">
+                    <input type="submit" value="Log in" class="btn btn-primary btn-block bg-dark">
                 </div>
                 <div class="row">
                     <p>Forgot you password ? <a href="<?php echo URL_ROOT ?>/users/forgot" style="text-decoration: none;">reset password</a></p>

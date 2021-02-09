@@ -74,25 +74,34 @@
                 'user_id'  => $_SESSION['user_id'],
                 'path' => $file,
             ];
-            if($this->postModel->save($data)){
-                
-            }else
+            if($this->postModel->save($data)){}
+            else
                 return false;	  
             }
         }
 
-        public function edit_post($id)
-        {
-            die($id);
-        }
-
-        public function del_post($post_id)
-        {
+        public function del_post($post_id, $p)
+        {  
             $post = $this->postModel->getPostById($post_id);
-            if($this->postModel->del($post_id) && $this->postModel->del_comments($post_id) && $this->postModel->del_likes($post_id))
+            if($this->postModel->del($post_id, $_SESSION['user_id']) && $this->postModel->del_comments($post_id, $_SESSION['user_id']) && $this->postModel->del_likes($post_id, $_SESSION['user_id']))
             {
                 unlink($post->content);
-                redirect('users/profile');
+                if ($p == 1)
+                    redirect('users/profile');
+                else if ($p == 2)
+                    redirect('posts/add');
+                else
+                    redirect('users/profile');
+            }
+            else
+                die("error");
+        }
+
+        public function delete_comments($commentId)
+        {
+            if($this->postModel->del_cmmt($commentId, $_SESSION['user_id']))
+            {
+                redirect('posts');
             }
             else
                 die("error");
@@ -114,25 +123,16 @@
                 if($data['c'] == 'fa fa-heart')
                 {
                   
-                  if($this->postModel->deleteLike($data))
-                  {
-    
-                  }
+                  if($this->postModel->deleteLike($data, $_SESSION['user_id'])){}
                   else
-                  {
                     die('error');
-                  }
                 }
                 else if($data['c'] == 'fa fa-heart-o')
                 {
                   
-                  if($this->postModel->addLike($data))
-                  {
-                  }
+                  if($this->postModel->addLike($data)){}
                   else
-                  {
                     die('error');
-                  }
                 }
                    
              }
@@ -151,15 +151,15 @@
                 $dest = $this->userModel->gets_user($uid->user_id);
                 if($this->postModel->addComment($data) && $dest->notification == 1)
                 {
-                        $to_email = $dest->email;
-                        $subject = "New Comment";
-                        $body = '<p><h1>You have recieved a comment on one of your posts</h1>
-                            <br /><br />
-                            <br/> 
-                            '.$sender->username.' has commented on your post.
-                            </p>';
-                        $headers = "Content-type:text/html;charset=UTF-8" . "\r\n";
-                        $headers .= 'From: <smoudene>' . "\r\n";    
+                    $to_email = $dest->email;
+                    $subject = "New Comment";
+                    $body = '<p><h1>A new comment on one of your posts</h1>
+                        <br /><br />
+                        <br/> 
+                        '.$sender->username.' has commented on your post.
+                        </p>';
+                    $headers = "Content-type:text/html;charset=UTF-8" . "\r\n";
+                    $headers .= 'From: <smoudene>' . "\r\n";      
                         mail($to_email, $subject, $body, $headers);
                 }
             }
